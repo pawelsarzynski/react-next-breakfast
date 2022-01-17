@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  swcMinify: true,
+  experimental: {
+    concurrentFeatures: true,
+    serverComponents: true,
+    urlImports: ['https://cdn.skypack.dev'],
+  },
   eslint: {
     dirs: ['src'],
   },
@@ -7,6 +13,7 @@ module.exports = {
   reactStrictMode: true,
 
   images: {
+    formats: ['image/avif', 'image/webp'],
     domains: ['raw.githubusercontent.com'],
   },
 

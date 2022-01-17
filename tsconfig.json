@@ -20,7 +20,8 @@
       "@/interfaces*": ["./src/interfaces"],
       "~/*": ["./public/*"]
     },
-    "incremental": true
+    "incremental": true,
+    "types": ["react/next", "react/experimental"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],

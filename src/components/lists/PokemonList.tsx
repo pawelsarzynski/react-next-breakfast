@@ -12,9 +12,10 @@ interface PokemonListProps {
 }
 
 const PokemonList = ({ searchPhrase }: PokemonListProps): JSX.Element => {
-  const { data, error } = useSWR<{ results: PokemonListItem[] }>(
-    'https://pokeapi.co/api/v2/pokemon/?limit=2000',
-    fetcher
+  const { data } = useSWR<{ results: PokemonListItem[] }>(
+    `${process.env.NEXT_PUBLIC_API_BASE}/pokemon/?limit=2000`,
+    fetcher,
+    { suspense: true }
   );
 
   const pokemons = React.useMemo(
@@ -25,12 +26,12 @@ const PokemonList = ({ searchPhrase }: PokemonListProps): JSX.Element => {
     [data?.results, searchPhrase]
   );
 
-  if (!pokemons) return <Spinner />;
-
   return (
     <section className='grid grid-cols-4 gap-4 p-4 min-w-full min-h-full'>
       {pokemons?.map((pokemon) => (
-        <PokemonCard key={pokemon.name} {...pokemon} />
+        <React.Suspense key={pokemon.name} fallback={<Spinner />}>
+          <PokemonCard {...pokemon} />
+        </React.Suspense>
       ))}
     </section>
   );

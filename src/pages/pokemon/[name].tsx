@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
+import * as React from 'react';
 import useSWR from 'swr';
 
-import Footer from '@/components/Footer/Footer';
+import Footer from '@/components/Footer/Footer.client';
 import Layout from '@/components/layout/Layout';
 import ArrowLink from '@/components/links/ArrowLink';
 import MoveListItem from '@/components/listItems/MoveListItem';
@@ -20,7 +21,7 @@ const Pokemon = () => {
   const router = useRouter();
   const { name } = router.query;
   const { data: pokemon, error } = useSWR<Pokemon>(
-    `https://pokeapi.co/api/v2/pokemon/${name}/`,
+    `${process.env.NEXT_PUBLIC_API_BASE}/pokemon/${name}/`,
     fetcher
   );
 
@@ -61,7 +62,9 @@ const Pokemon = () => {
           <div className='flex relative mt-4 mb-4'>
             <p className='top-[-16px] absolute left-0'>Types:</p>
             {pokemon.types.map(({ type }, index) => (
-              <TypeListItem key={index} url={type.url} />
+              <React.Suspense key={index} fallback={<Spinner />}>
+                <TypeListItem url={type.url} />
+              </React.Suspense>
             ))}
           </div>
           <div className='flex relative flex-wrap max-w-full'>
