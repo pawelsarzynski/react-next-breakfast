@@ -16,6 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@/helpers*": ["./src/helpers"],
+      "@/interfaces*": ["./src/interfaces"],
       "~/*": ["./public/*"]
     },
     "incremental": true
